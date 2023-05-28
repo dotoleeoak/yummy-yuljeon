@@ -1,12 +1,12 @@
 package edu.skku.cs.yummyyuljeon.ui.home
 
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import edu.skku.cs.yummyyuljeon.Place
 import edu.skku.cs.yummyyuljeon.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -22,16 +22,32 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        val root = binding.root
 
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+        // TODO: receive data from API
+        val places = ArrayList<Place>()
+        places.add(Place("봉수육", "경기 수원시 장안구 율전로 108번길 11 1층", "500m", "image_url"))
+        places.add(Place("쟈스민", "경기 수원시 장안구 율전로 108번길 11 1층", "500m", "image_url"))
+        places.add(Place("보리네 주먹고기", "경기 수원시 장안구 율전로 108번길 11 1층", "500m", "image_url"))
+        places.add(Place("이라면 본점", "경기 수원시 장안구 율전로 108번길 11 1층", "500m", "image_url"))
+        places.add(Place("옥집", "경기 수원시 장안구 율전로 108번길 11 1층", "500m", "image_url"))
+
+        val gridView = binding.gridCard
+        gridView.adapter = CardAdapter(requireContext(), places)
+
+        // Update height of gridview depending on the number of cards
+        val numRows = (places.size + 1) / 2
+        val pxHeight = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            260f * numRows,
+            requireContext().resources.displayMetrics
+        ).toInt()
+
+        val gridParams = gridView.layoutParams
+        gridParams.height = pxHeight
+        gridView.layoutParams = gridParams
+
         return root
     }
 
