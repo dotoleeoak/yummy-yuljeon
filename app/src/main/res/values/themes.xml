@@ -12,5 +12,9 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+
+        <!-- font-family -->
+        <item name="android:textViewStyle">@style/textViewFont</item>
+        <item name="android:buttonStyle">@style/buttonFont</item>
     </style>
 </resources>

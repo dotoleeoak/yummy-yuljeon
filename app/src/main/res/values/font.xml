@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="textViewFont" parent="@android:style/Widget.DeviceDefault.TextView">
+        <item name="android:fontFamily">@font/opensans</item>
+    </style>
+
+    <style name="buttonFont" parent="@android:style/Widget.DeviceDefault.Button.Borderless">
+        <item name="android:fontFamily">@font/opensans</item>
+    </style>
+</resources>
