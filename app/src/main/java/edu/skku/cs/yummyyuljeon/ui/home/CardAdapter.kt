@@ -1,6 +1,7 @@
 package edu.skku.cs.yummyyuljeon.ui.home
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.util.TypedValue
@@ -15,6 +16,7 @@ import edu.skku.cs.yummyyuljeon.*
 
 class CardAdapter(private val context: Context, private val items: List<Place>) :
     BaseAdapter() {
+    
     override fun getCount(): Int {
         return items.size
     }
@@ -39,6 +41,19 @@ class CardAdapter(private val context: Context, private val items: List<Place>) 
 
         // TODO: update address, name, and image
 
+        // if item is clicked, show detail page
+        view.setOnClickListener {
+            val intent = Intent(
+                context,
+                DetailActivity::class.java
+            ).apply {
+                putExtra(HomeFragment.EXT_NAME, items[position].name)
+                putExtra(HomeFragment.EXT_ADDRESS, items[position].address)
+                putExtra(HomeFragment.EXT_IMAGE, items[position].image)
+            }
+            context.startActivity(intent)
+        }
+
         // set width of the card depending on the screen size
         val pxMargin = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
@@ -54,7 +69,7 @@ class CardAdapter(private val context: Context, private val items: List<Place>) 
 
         val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.food)
         val drawable = BitmapDrawable(context.resources, bitmap)
-        image.background = ContextCompat.getDrawable(context, R.drawable.grid_item)
+        image.background = ContextCompat.getDrawable(context, R.drawable.rounded_button)
         image.setImageDrawable(drawable)
 
         return view

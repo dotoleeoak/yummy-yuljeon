@@ -10,12 +10,14 @@ import edu.skku.cs.yummyyuljeon.Place
 import edu.skku.cs.yummyyuljeon.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
-
     private var _binding: FragmentHomeBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+
+    companion object {
+        const val EXT_NAME = "name"
+        const val EXT_ADDRESS = "address"
+        const val EXT_IMAGE = "image"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetailActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/detailImage"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/food"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/detailTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="봉수육"
+            android:textColor="@color/main"
+            android:textFontWeight="800"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/detailImage" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="30dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="30dp" />
+
+        <Button
+            android:id="@+id/buttonFavorite"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/rounded_button"
+            android:drawableTop="@drawable/fa6solidheart"
+            android:drawableTint="@color/button_main"
+            android:paddingTop="16sp"
+            android:text="FAVORITE"
+            android:textColor="@color/button_main"
+            android:textFontWeight="700"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@id/buttonMap"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/detailTitle" />
+
+        <Button
+            android:id="@+id/buttonMap"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/rounded_button"
+            android:drawableTop="@drawable/fa6solidmaplocationdot"
+            android:drawableTint="@color/button_main"
+            android:paddingTop="20sp"
+            android:text="VIEW ON MAP"
+            android:textColor="@color/button_main"
+            android:textFontWeight="700"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"
+            app:layout_constraintStart_toEndOf="@id/buttonFavorite"
+            app:layout_constraintTop_toBottomOf="@id/detailTitle" />
+
+        <ImageView
+            android:id="@+id/iconMap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:src="@drawable/fa6solidmap"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/buttonFavorite" />
+
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="경기 수원시 장안구 율전로108번길 11 1층"
+            android:textColor="@color/text"
+            android:layout_marginStart="14dp"
+            app:layout_constraintBottom_toBottomOf="@id/iconMap"
+            app:layout_constraintStart_toEndOf="@id/iconMap"
+            app:layout_constraintTop_toTopOf="@id/iconMap" />
+
+        <ImageView
+            android:id="@+id/iconClock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/fa6solidclock"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/iconMap" />
+
+        <TextView
+            android:id="@+id/openingHours"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="매일 오후 6:00 ~ 오전 1:00"
+            android:textColor="@color/text"
+            android:layout_marginStart="14dp"
+            app:layout_constraintBottom_toBottomOf="@id/iconClock"
+            app:layout_constraintStart_toEndOf="@id/iconClock"
+            app:layout_constraintTop_toTopOf="@id/iconClock" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
