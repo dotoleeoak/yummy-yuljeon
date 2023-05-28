@@ -12,6 +12,7 @@ import edu.skku.cs.yummyyuljeon.databinding.FragmentHomeBinding
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+    private var adapter: CardAdapter? = null
 
     companion object {
         const val EXT_NAME = "name"
@@ -36,7 +37,8 @@ class HomeFragment : Fragment() {
         places.add(Place("옥집", "경기 수원시 장안구 율전로 108번길 11 1층", "500m", "image_url"))
 
         val gridView = binding.gridCard
-        gridView.adapter = CardAdapter(requireContext(), places)
+        adapter = CardAdapter(requireContext(), places)
+        gridView.adapter = adapter
 
         // Update height of gridview depending on the number of cards
         val numRows = (places.size + 1) / 2
@@ -49,6 +51,12 @@ class HomeFragment : Fragment() {
         val gridParams = gridView.layoutParams
         gridParams.height = pxHeight
         gridView.layoutParams = gridParams
+
+        // shuffle list
+        binding.buttonShuffle.setOnClickListener {
+            places.shuffle()
+            adapter?.notifyDataSetChanged()
+        }
 
         return root
     }
