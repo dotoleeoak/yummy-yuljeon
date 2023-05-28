@@ -4,7 +4,9 @@ data class Place(
     val name: String? = null,
     val address: String? = null,
     val distance: String? = null,
-    val image: String? = null
+    val image: String? = null,
+    val x: Number? = null,
+    val y: Number? = null
 )
 
 //data class SignIn(val username: String? = null)

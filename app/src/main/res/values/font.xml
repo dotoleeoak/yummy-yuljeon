@@ -2,10 +2,10 @@
 <resources>
 
     <style name="textViewFont" parent="@android:style/Widget.DeviceDefault.TextView">
-        <item name="android:fontFamily">@font/opensans</item>
+        <item name="android:fontFamily">@font/notosans</item>
     </style>
 
     <style name="buttonFont" parent="@android:style/Widget.DeviceDefault.Button.Borderless">
-        <item name="android:fontFamily">@font/opensans</item>
+        <item name="android:fontFamily">@font/notosans</item>
     </style>
 </resources>

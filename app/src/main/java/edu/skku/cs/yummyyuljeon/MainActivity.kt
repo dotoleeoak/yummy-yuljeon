@@ -1,6 +1,8 @@
 package edu.skku.cs.yummyyuljeon
 
 import android.os.Bundle
+import android.util.Base64
+import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController

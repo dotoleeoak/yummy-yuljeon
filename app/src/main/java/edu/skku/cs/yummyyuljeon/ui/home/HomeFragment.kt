@@ -18,6 +18,8 @@ class HomeFragment : Fragment() {
         const val EXT_NAME = "name"
         const val EXT_ADDRESS = "address"
         const val EXT_IMAGE = "image"
+        const val EXT_X = "x"
+        const val EXT_Y = "y"
     }
 
     override fun onCreateView(
@@ -30,11 +32,56 @@ class HomeFragment : Fragment() {
 
         // TODO: receive data from API
         val places = ArrayList<Place>()
-        places.add(Place("봉수육", "경기 수원시 장안구 율전로 108번길 11 1층", "500m", "image_url"))
-        places.add(Place("쟈스민", "경기 수원시 장안구 율전로 108번길 11 1층", "500m", "image_url"))
-        places.add(Place("보리네 주먹고기", "경기 수원시 장안구 율전로 108번길 11 1층", "500m", "image_url"))
-        places.add(Place("이라면 본점", "경기 수원시 장안구 율전로 108번길 11 1층", "500m", "image_url"))
-        places.add(Place("옥집", "경기 수원시 장안구 율전로 108번길 11 1층", "500m", "image_url"))
+        places.add(
+            Place(
+                "봉수육",
+                "경기 수원시 장안구 율전로 108번길 11 1층",
+                "500m",
+                "image_url",
+                126.96993073843757,
+                37.298959153701865
+            )
+        )
+        places.add(
+            Place(
+                "쟈스민",
+                "경기 수원시 장안구 화산로213번길 9-3",
+                "500m",
+                "image_url",
+                126.97298945005193,
+                37.29923020230733
+            )
+        )
+        places.add(
+            Place(
+                "보리네 주먹고기",
+                "경기 수원시 장안구 율전로98번길 6-9",
+                "500m",
+                "image_url",
+                126.969047032081,
+                37.2976145788274
+            )
+        )
+        places.add(
+            Place(
+                "이라면 본점",
+                "경기 수원시 장안구 서부로2106번길 18",
+                "500m",
+                "image_url",
+                126.97145409716465,
+                37.297049332579874
+            )
+        )
+        places.add(
+            Place(
+                "옥집",
+                "경기 수원시 장안구 화산로233번길 25",
+                "500m",
+                "image_url",
+                126.97092340041662,
+                37.298626018105686
+            )
+        )
 
         val gridView = binding.gridCard
         adapter = CardAdapter(requireContext(), places)

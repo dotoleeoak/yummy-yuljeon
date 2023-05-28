@@ -16,7 +16,7 @@ import edu.skku.cs.yummyyuljeon.*
 
 class CardAdapter(private val context: Context, private val items: List<Place>) :
     BaseAdapter() {
-    
+
     override fun getCount(): Int {
         return items.size
     }
@@ -50,6 +50,8 @@ class CardAdapter(private val context: Context, private val items: List<Place>) 
                 putExtra(HomeFragment.EXT_NAME, items[position].name)
                 putExtra(HomeFragment.EXT_ADDRESS, items[position].address)
                 putExtra(HomeFragment.EXT_IMAGE, items[position].image)
+                putExtra(HomeFragment.EXT_X, items[position].x)
+                putExtra(HomeFragment.EXT_Y, items[position].y)
             }
             context.startActivity(intent)
         }
