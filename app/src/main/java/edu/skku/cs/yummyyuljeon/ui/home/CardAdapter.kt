@@ -12,6 +12,7 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.squareup.picasso.Picasso
 import edu.skku.cs.yummyyuljeon.*
 
 class CardAdapter(private val context: Context, private val items: List<Place>) :
@@ -37,8 +38,7 @@ class CardAdapter(private val context: Context, private val items: List<Place>) 
         val name = view.findViewById<TextView>(R.id.name)
         val address = view.findViewById<TextView>(R.id.address)
 
-        // TODO: set image
-        image.setImageResource(R.drawable.food)
+        Picasso.get().load(items[position].image).into(image)
         name.text = items[position].name
         address.text = items[position].address
 

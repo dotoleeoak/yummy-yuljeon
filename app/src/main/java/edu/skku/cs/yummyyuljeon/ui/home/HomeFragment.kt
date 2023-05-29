@@ -53,6 +53,7 @@ class HomeFragment : Fragment() {
                 places = data.places!!
 
                 CoroutineScope(Dispatchers.Main).launch {
+                    binding.progressBar.visibility = View.GONE
                     val gridView = binding.gridCard
                     adapter = CardAdapter(requireContext(), places)
                     gridView.adapter = adapter
@@ -66,6 +67,7 @@ class HomeFragment : Fragment() {
                     ).toInt()
                     gridView.layoutParams.height = cardHeight * numRows
                     gridView.requestLayout()
+                    gridView.visibility = View.VISIBLE
                 }
             }
         })

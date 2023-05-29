@@ -81,7 +81,7 @@ app.get('/place', async (req, res) => {
 
   const placesWithImage = await Promise.all(
     parsedData.places.map(async (place) => {
-      const image = await searchImage(place.name)
+      const image = await searchImage(place.name + ' 성균관대역')
       return {
         ...place,
         image

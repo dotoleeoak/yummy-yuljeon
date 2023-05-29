@@ -10,7 +10,9 @@ export const searchImage = async (query: string) => {
         'X-Naver-Client-Secret': process.env.NAVER_CLIENT_SECRET
       },
       params: {
-        query
+        query,
+        display: 1,
+        filter: 'medium'
       }
     }
   )
@@ -18,15 +20,12 @@ export const searchImage = async (query: string) => {
   const schema = z.object({
     items: z.array(
       z.object({
-        link: z.string(),
-        thumbnail: z.string(),
-        sizeheight: z.string(),
-        sizewidth: z.string()
+        link: z.string()
       })
     )
   })
 
   const parsed = schema.parse(data)
 
-  return parsed.items[0].link
+  return parsed.items[0]?.link || ''
 }
