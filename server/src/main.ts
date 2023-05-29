@@ -10,6 +10,10 @@ if (!process.env.KAKAO_REST_API_KEY) {
   throw new Error('KAKAO_REST_API_KEY is not defined')
 }
 
+if (!process.env.NAVER_CLIENT_ID || !process.env.NAVER_CLIENT_SECRET) {
+  throw new Error('NAVER_CLIENT is not defined')
+}
+
 const app = express()
 
 app.get('/', (req, res) => {
@@ -75,7 +79,7 @@ app.get('/place', async (req, res) => {
 
   const parsedData = schema.parse(data)
 
-  const dataWithImage = await Promise.all(
+  const placesWithImage = await Promise.all(
     parsedData.places.map(async (place) => {
       const image = await searchImage(place.name)
       return {
@@ -84,6 +88,11 @@ app.get('/place', async (req, res) => {
       }
     })
   )
+
+  const dataWithImage = {
+    meta: parsedData.meta,
+    places: placesWithImage
+  }
 
   res.send(dataWithImage)
 })

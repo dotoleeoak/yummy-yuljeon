@@ -6,13 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import edu.skku.cs.yummyyuljeon.Place
+import com.google.gson.Gson
+import edu.skku.cs.yummyyuljeon.*
 import edu.skku.cs.yummyyuljeon.databinding.FragmentHomeBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import okhttp3.*
+import java.io.IOException
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private var adapter: CardAdapter? = null
+    private var places = ArrayList<Place>()
 
     companion object {
         const val EXT_NAME = "name"
@@ -30,74 +37,38 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root = binding.root
 
-        // TODO: receive data from API
-        val places = ArrayList<Place>()
-        places.add(
-            Place(
-                "봉수육",
-                "경기 수원시 장안구 율전로 108번길 11 1층",
-                "500m",
-                "image_url",
-                126.96993073843757,
-                37.298959153701865
-            )
-        )
-        places.add(
-            Place(
-                "쟈스민",
-                "경기 수원시 장안구 화산로213번길 9-3",
-                "500m",
-                "image_url",
-                126.97298945005193,
-                37.29923020230733
-            )
-        )
-        places.add(
-            Place(
-                "보리네 주먹고기",
-                "경기 수원시 장안구 율전로98번길 6-9",
-                "500m",
-                "image_url",
-                126.969047032081,
-                37.2976145788274
-            )
-        )
-        places.add(
-            Place(
-                "이라면 본점",
-                "경기 수원시 장안구 서부로2106번길 18",
-                "500m",
-                "image_url",
-                126.97145409716465,
-                37.297049332579874
-            )
-        )
-        places.add(
-            Place(
-                "옥집",
-                "경기 수원시 장안구 화산로233번길 25",
-                "500m",
-                "image_url",
-                126.97092340041662,
-                37.298626018105686
-            )
-        )
+        val url = getString(R.string.base_url) + "/place"
+        val client = OkHttpClient()
+        val request = Request.Builder().url(url).build()
 
-        val gridView = binding.gridCard
-        adapter = CardAdapter(requireContext(), places)
-        gridView.adapter = adapter
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
 
-        // Update height of gridview depending on the number of cards
-        val numRows = (places.size + 1) / 2
-        val pxHeight = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            260f * numRows,
-            requireContext().resources.displayMetrics
-        ).toInt()
+            override fun onResponse(call: Call, response: Response) {
+                val body = response.body?.string()
+                val gson = Gson()
+                val data = gson.fromJson(body, ApiPlace::class.java)
+                places = data.places!!
 
-        val gridParams = gridView.layoutParams
-        gridParams.height = pxHeight
-        gridView.layoutParams = gridParams
+                CoroutineScope(Dispatchers.Main).launch {
+                    val gridView = binding.gridCard
+                    adapter = CardAdapter(requireContext(), places)
+                    gridView.adapter = adapter
+
+                    // Update height of gridview depending on the number of cards
+                    val numRows = (places.size + 1) / 2
+                    val cardHeight = TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        200f,
+                        resources.displayMetrics
+                    ).toInt()
+                    gridView.layoutParams.height = cardHeight * numRows
+                    gridView.requestLayout()
+                }
+            }
+        })
 
         // shuffle list
         binding.buttonShuffle.setOnClickListener {
