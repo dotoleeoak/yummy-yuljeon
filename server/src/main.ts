@@ -1,4 +1,11 @@
 import express from 'express'
+import dotenv from 'dotenv'
+
+dotenv.config()
+
+if (!process.env.KAKAO_REST_API_KEY) {
+  throw new Error('KAKAO_REST_API_KEY is not defined')
+}
 
 const app = express()
 
