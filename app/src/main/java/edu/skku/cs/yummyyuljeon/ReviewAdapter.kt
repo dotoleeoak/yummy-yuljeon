@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 
-class ReviewAdapter(private val context: Context, private val items: List<ApiDetail.Review>) : BaseAdapter() {
+class ReviewAdapter(private val context: Context, private val items: ArrayList<ApiDetail.Review>) : BaseAdapter() {
     override fun getCount(): Int {
         return items.size
     }
@@ -22,9 +22,9 @@ class ReviewAdapter(private val context: Context, private val items: List<ApiDet
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val inflater = LayoutInflater.from(context)
-        val view = convertView ?: inflater.inflate(R.layout.card, parent, false)
+        val view = convertView ?: inflater.inflate(R.layout.review, parent, false)
 
-        val review = view.findViewById<TextView>(R.id.review)
+        val review = view.findViewById<TextView>(R.id.review)!!
         review.text = items[position].content
 
         return view

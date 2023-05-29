@@ -2,9 +2,12 @@ package edu.skku.cs.yummyyuljeon
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ListView
 import android.widget.TextView
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
@@ -13,6 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.*
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 class DetailActivity : AppCompatActivity() {
     companion object {
@@ -55,7 +59,7 @@ class DetailActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val url = getString(R.string.base_url) + "/place" + id
+        val url = getString(R.string.base_url) + "/place/" + id
         val client = OkHttpClient()
         val request = Request.Builder().url(url).build()
 
@@ -65,33 +69,31 @@ class DetailActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                val body = response.body?.string()
+                val body = response.body!!.string()
                 val gson = Gson()
                 val data = gson.fromJson(body, ApiDetail::class.java)
 
                 CoroutineScope(Dispatchers.Main).launch {
                     val openingHourView = findViewById<TextView>(R.id.openingHours)
+                    val reviewList = findViewById<ListView>(R.id.reviewList)
 
                     openingHourView.text = data.openHour
 
-                    // update recyclerview
+                    val progressBar = findViewById<View>(R.id.progressBar)
+                    progressBar.visibility = View.GONE
+                    reviewList.visibility = View.VISIBLE
 
+                    val reviews = data.reviews
+                    reviewList.adapter = ReviewAdapter(this@DetailActivity, reviews!!)
 
-//                            binding.progressBar.visibility = View.GONE
-//                            val gridView = binding.gridCard
-//                            adapter = CardAdapter(requireContext(), places)
-//                            gridView.adapter = adapter
-//
-//                            // Update height of gridview depending on the number of cards
-//                            val numRows = (places.size + 1) / 2
-//                            val cardHeight = TypedValue.applyDimension(
-//                                TypedValue.COMPLEX_UNIT_DIP,
-//                                230f * numRows + 40f,
-//                                resources.displayMetrics
-//                            ).toInt()
-//                            gridView.layoutParams.height = cardHeight
-//                            gridView.requestLayout()
-//                            gridView.visibility = View.VISIBLE
+                    // Update height of listview depending on the number of cards
+                    val height = TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        160f * data.reviews.size + 20f, // TODO: adjust height to child
+                        resources.displayMetrics
+                    ).toInt()
+                    reviewList.layoutParams.height = height
+                    reviewList.requestLayout()
                 }
             }
         })
