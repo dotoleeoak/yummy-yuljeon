@@ -35,11 +35,12 @@ class CardAdapter(private val context: Context, private val items: List<Place>) 
 
         val image = view.findViewById<ImageView>(R.id.card_image)
         val name = view.findViewById<TextView>(R.id.name)
+        val address = view.findViewById<TextView>(R.id.address)
 
+        // TODO: set image
         image.setImageResource(R.drawable.food)
         name.text = items[position].name
-
-        // TODO: update address, name, and image
+        address.text = items[position].address
 
         // if item is clicked, show detail page
         view.setOnClickListener {
