@@ -2,7 +2,13 @@ package edu.skku.cs.yummyyuljeon.ui.home
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.BitmapShader
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.RectF
+import android.graphics.Shader
 import android.graphics.drawable.BitmapDrawable
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -13,6 +19,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.squareup.picasso.Picasso
+import com.squareup.picasso.Transformation
 import edu.skku.cs.yummyyuljeon.*
 
 class CardAdapter(private val context: Context, private val items: List<Place>) :
@@ -38,6 +45,9 @@ class CardAdapter(private val context: Context, private val items: List<Place>) 
         val name = view.findViewById<TextView>(R.id.name)
         val address = view.findViewById<TextView>(R.id.address)
 
+        val pxCorner = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, 16f, context.resources.displayMetrics
+        )
         Picasso.get().load(items[position].image).into(image)
         name.text = items[position].name
         address.text = items[position].address
@@ -48,8 +58,10 @@ class CardAdapter(private val context: Context, private val items: List<Place>) 
                 context,
                 DetailActivity::class.java
             ).apply {
+                putExtra(HomeFragment.EXT_ID, items[position].id)
                 putExtra(HomeFragment.EXT_NAME, items[position].name)
                 putExtra(HomeFragment.EXT_ADDRESS, items[position].address)
+                putExtra(HomeFragment.EXT_PHONE, items[position].phone)
                 putExtra(HomeFragment.EXT_IMAGE, items[position].image)
                 putExtra(HomeFragment.EXT_X, items[position].x)
                 putExtra(HomeFragment.EXT_Y, items[position].y)
@@ -70,11 +82,33 @@ class CardAdapter(private val context: Context, private val items: List<Place>) 
         viewParams.width = (pxWidth - pxMargin) / 2
         view.layoutParams = viewParams
 
-        val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.food)
-        val drawable = BitmapDrawable(context.resources, bitmap)
-        image.background = ContextCompat.getDrawable(context, R.drawable.rounded_button)
-        image.setImageDrawable(drawable)
-
         return view
+    }
+}
+
+class RoundedCorner(private val radius: Float) : Transformation {
+    override fun transform(source: Bitmap): Bitmap {
+        val paint = Paint()
+        paint.isAntiAlias = true
+        paint.shader = BitmapShader(source, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
+
+        val output = Bitmap.createBitmap(source.width, source.height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(output)
+        canvas.drawRoundRect(
+            RectF(0f, 0f, source.width.toFloat(), source.height.toFloat()),
+            radius,
+            radius,
+            paint
+        )
+
+        if (source != output) {
+            source.recycle()
+        }
+
+        return output
+    }
+
+    override fun key(): String {
+        return "rounded"
     }
 }

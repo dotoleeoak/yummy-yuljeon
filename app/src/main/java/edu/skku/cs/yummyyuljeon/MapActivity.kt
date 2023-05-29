@@ -13,8 +13,8 @@ class MapActivity : AppCompatActivity() {
         setContentView(R.layout.activity_map)
 
         val name = intent.getStringExtra("name")
-        val x = intent.getDoubleExtra("x", 126.974579152201)
-        val y = intent.getDoubleExtra("y", 37.2940144502368)
+        val x = intent.getStringExtra("x")!!.toDouble()
+        val y = intent.getStringExtra("y")!!.toDouble()
 
         val mapView = MapView(this)
         val mapViewContainer = findViewById<RelativeLayout>(R.id.map_view)

@@ -55,7 +55,7 @@
             android:background="@drawable/rounded_button"
             android:drawableTop="@drawable/fa6solidheart"
             android:drawableTint="@color/button_main"
-            android:foreground="?attr/selectableItemBackground"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
             android:paddingTop="16sp"
             android:text="FAVORITE"
             android:textColor="@color/button_main"
@@ -73,7 +73,7 @@
             android:background="@drawable/rounded_button"
             android:drawableTop="@drawable/fa6solidmaplocationdot"
             android:drawableTint="@color/button_main"
-            android:foreground="?attr/selectableItemBackground"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
             android:paddingTop="20sp"
             android:text="VIEW ON MAP"
             android:textColor="@color/button_main"
@@ -122,6 +122,60 @@
             app:layout_constraintBottom_toBottomOf="@id/iconClock"
             app:layout_constraintStart_toEndOf="@id/iconClock"
             app:layout_constraintTop_toTopOf="@id/iconClock" />
+
+        <ImageView
+            android:id="@+id/iconPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/fa6solidphone"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/iconClock" />
+
+        <TextView
+            android:id="@+id/phoneNumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:text="031-234-5678"
+            android:textColor="@color/text"
+            app:layout_constraintBottom_toBottomOf="@id/iconPhone"
+            app:layout_constraintStart_toEndOf="@id/iconPhone"
+            app:layout_constraintTop_toTopOf="@id/iconPhone" />
+
+        <!-- line -->
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_marginTop="60dp"
+            android:background="@color/button_main"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/iconPhone" />
+
+        <TextView
+            android:id="@+id/textReview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="REVIEWS"
+            android:textAlignment="center"
+            android:textColor="@color/main"
+            android:textFontWeight="700"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/line" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/reviewRecyclerView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/textReview" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

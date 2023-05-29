@@ -3,6 +3,8 @@ import dotenv from 'dotenv'
 import axios from 'axios'
 import { z } from 'zod'
 import { searchImage } from './search'
+import { getReview } from './review'
+import { Builder, Browser } from 'selenium-webdriver'
 
 dotenv.config()
 
@@ -14,6 +16,7 @@ if (!process.env.NAVER_CLIENT_ID || !process.env.NAVER_CLIENT_SECRET) {
   throw new Error('NAVER_CLIENT is not defined')
 }
 
+const driver = new Builder().forBrowser(Browser.CHROME).build()
 const app = express()
 
 app.get('/', (req, res) => {
@@ -95,6 +98,12 @@ app.get('/place', async (req, res) => {
   }
 
   res.send(dataWithImage)
+})
+
+app.get('/place/:id', async (req, res) => {
+  const review = await getReview(req.params.id, driver)
+
+  res.send(review)
 })
 
 app.listen(3000, () => {

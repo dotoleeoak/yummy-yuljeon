@@ -1,6 +1,7 @@
 package edu.skku.cs.yummyyuljeon
 
 data class Place(
+    val id: String? = null,
     val name: String? = null,
     val address: String? = null,
     val phone: String? = null,
@@ -17,5 +18,14 @@ data class ApiPlace(
     data class Meta(
         val total_count: Number? = null,
         val is_end: Boolean? = null,
+    )
+}
+
+data class ApiDetail(
+    val openHour: String? = null,
+    val reviews: ArrayList<Review>? = null
+) {
+    data class Review(
+        val content: String? = null
     )
 }

@@ -22,8 +22,10 @@ class HomeFragment : Fragment() {
     private var places = ArrayList<Place>()
 
     companion object {
+        const val EXT_ID = "id"
         const val EXT_NAME = "name"
         const val EXT_ADDRESS = "address"
+        const val EXT_PHONE = "phone"
         const val EXT_IMAGE = "image"
         const val EXT_X = "x"
         const val EXT_Y = "y"
@@ -62,10 +64,10 @@ class HomeFragment : Fragment() {
                     val numRows = (places.size + 1) / 2
                     val cardHeight = TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_DIP,
-                        200f,
+                        230f * numRows + 40f,
                         resources.displayMetrics
                     ).toInt()
-                    gridView.layoutParams.height = cardHeight * numRows
+                    gridView.layoutParams.height = cardHeight
                     gridView.requestLayout()
                     gridView.visibility = View.VISIBLE
                 }
