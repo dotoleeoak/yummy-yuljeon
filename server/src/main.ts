@@ -5,6 +5,7 @@ import { z } from 'zod'
 import { searchImage } from './search'
 import { getReview } from './review'
 import { Builder, Browser } from 'selenium-webdriver'
+import chrome from 'selenium-webdriver/chrome'
 
 dotenv.config()
 
@@ -16,7 +17,14 @@ if (!process.env.NAVER_CLIENT_ID || !process.env.NAVER_CLIENT_SECRET) {
   throw new Error('NAVER_CLIENT is not defined')
 }
 
-const driver = new Builder().forBrowser(Browser.CHROME).build()
+// headless chrome
+const driverOption = new chrome.Options()
+driverOption.addArguments('headless')
+const driver = new Builder()
+  .forBrowser(Browser.CHROME)
+  .setChromeOptions(driverOption)
+  .build()
+
 const app = express()
 
 app.get('/', (req, res) => {
