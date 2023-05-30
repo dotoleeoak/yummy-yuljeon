@@ -36,8 +36,6 @@ class CardAdapter(private val context: Context, private val items: List<Place>) 
         val address = view.findViewById<TextView>(R.id.address)
         val distance = view.findViewById<TextView>(R.id.distance)
 
-        Log.i("CardAdapter", "getView: ${items[position].image}")
-
         val imageUrl = items[position].image
         if (imageUrl?.isNotBlank() == true)
             Picasso.get().load(items[position].image).into(image)

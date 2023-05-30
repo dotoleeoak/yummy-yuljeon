@@ -5,7 +5,9 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +17,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import edu.skku.cs.yummyyuljeon.databinding.FragmentMapBinding
@@ -54,19 +57,8 @@ class MapFragment : Fragment() {
             return binding.root
         }
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-        fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-            val y = location.latitude
-            val x = location.longitude
-            mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(y, x), true)
-
-            // convert drawable to bitmap
-            val drawable =
-                ResourcesCompat.getDrawable(
-                    resources,
-                    R.drawable.fa6solidlocationcrosshairs,
-                    null
-                )!!
+        fun drawableToBitmap(id: Int): Bitmap {
+            val drawable = ResourcesCompat.getDrawable(resources, id, null)!!
             val bitmap = Bitmap.createBitmap(
                 drawable.intrinsicWidth,
                 drawable.intrinsicHeight,
@@ -75,16 +67,41 @@ class MapFragment : Fragment() {
             val canvas = Canvas(bitmap)
             drawable.setBounds(0, 0, canvas.width, canvas.height)
             drawable.draw(canvas)
+            return bitmap
+        }
 
-            val currentLocationMarker = MapPOIItem()
-            currentLocationMarker.itemName = "Current Position"
-            currentLocationMarker.tag = 0
-            currentLocationMarker.mapPoint = MapPoint.mapPointWithGeoCoord(y, x)
-            currentLocationMarker.markerType = MapPOIItem.MarkerType.CustomImage
-            currentLocationMarker.customImageBitmap = bitmap
-            currentLocationMarker.isCustomImageAutoscale = false
-            currentLocationMarker.setCustomImageAnchor(0.5f, 0.5f)
-            mapView.addPOIItem(currentLocationMarker)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+            val y = location.latitude
+            val x = location.longitude
+            mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(y, x), true)
+
+            val marker = MapPOIItem()
+            marker.itemName = "Current Position"
+            marker.tag = 0
+            marker.mapPoint = MapPoint.mapPointWithGeoCoord(y, x)
+            marker.markerType = MapPOIItem.MarkerType.CustomImage
+            marker.customImageBitmap = drawableToBitmap(R.drawable.fa6solidlocationcrosshairs)
+            marker.isCustomImageAutoscale = false
+            marker.setCustomImageAnchor(0.5f, 0.5f)
+            mapView.addPOIItem(marker)
+        }
+
+        val model = ViewModelProvider(requireActivity())[PlaceViewModel::class.java]
+        model.places.observe(viewLifecycleOwner) { places ->
+            Log.i("MapFragment", "whole places: $places")
+            for (place in places) {
+                Log.i("MapFragment", "place: $place")
+                val marker = MapPOIItem()
+                marker.itemName = place.name
+                marker.mapPoint =
+                    MapPoint.mapPointWithGeoCoord(place.y!!.toDouble(), place.x!!.toDouble())
+                marker.markerType = MapPOIItem.MarkerType.CustomImage
+                marker.customImageBitmap = drawableToBitmap(R.drawable.fa6solidlocationdot)
+                marker.isCustomImageAutoscale = false
+                marker.setCustomImageAnchor(0.5f, 0.5f)
+                mapView.addPOIItem(marker)
+            }
         }
 
         return binding.root

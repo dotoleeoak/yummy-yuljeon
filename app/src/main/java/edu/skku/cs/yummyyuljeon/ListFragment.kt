@@ -12,6 +12,8 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.gson.Gson
@@ -36,6 +38,7 @@ class ListFragment : Fragment() {
     private var distance: Int = 1000
     private var page: Int = 1
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+//    private val model = ViewModelProvider(this).get(PlaceViewModel::class.java)
 
     companion object {
         const val EXT_ID = "id"
@@ -117,6 +120,10 @@ class ListFragment : Fragment() {
                         } else {
                             places = data.places!!
                         }
+
+                        val model =
+                            ViewModelProvider(requireActivity())[PlaceViewModel::class.java]
+                        model.places.postValue(places)
 
                         CoroutineScope(Dispatchers.Main).launch {
                             val gridView = binding.gridCard
