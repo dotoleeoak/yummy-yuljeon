@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
+    android:clipToPadding="false"
+    android:paddingVertical="20dp"
     tools:context=".ui.home.HomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,7 +17,7 @@
             android:id="@+id/title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="80dp"
             android:layout_marginBottom="20dp"
             android:text="PLACES"
             android:textAlignment="textStart"
@@ -126,6 +128,22 @@
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
             app:layout_constraintTop_toBottomOf="@id/buttonDistance300" />
+
+        <Button
+            android:id="@+id/moreButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="20dp"
+            android:background="@drawable/rounded_button"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:text="More"
+            android:textAllCaps="false"
+            android:textColor="@color/button_main"
+            android:textFontWeight="700"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/grid_card" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
