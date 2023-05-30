@@ -44,7 +44,7 @@ class DetailActivity : AppCompatActivity() {
 
         nameView.text = name
         addressView.text = address
-        phoneView.text = phone
+        if (phone?.isNotBlank() == true) phoneView.text = phone
         Picasso.get().load(image).into(imageView)
 
         // open map activity on click map button

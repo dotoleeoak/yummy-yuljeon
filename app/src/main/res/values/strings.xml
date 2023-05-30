@@ -3,5 +3,7 @@
     <string name="title_list">LIST</string>
     <string name="title_map">MAP</string>
     <string name="title_my">MY</string>
+    <string name="not_provided">Not Provided</string>
+    <string name="loading">Loading...</string>
     <string name="base_url">https://api.dotoleeoak.me</string>
 </resources>
