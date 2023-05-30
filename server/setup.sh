@@ -4,8 +4,6 @@ set -x
 
 git pull
 
-fuser -k 3000/tcp
-
 pnpm i
 pnpm build
 
