@@ -39,6 +39,58 @@
             app:layout_constraintStart_toEndOf="@id/title"
             app:layout_constraintTop_toTopOf="@id/title" />
 
+        <Button
+            android:id="@+id/buttonDistance300"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_button"
+            android:text="300m"
+            android:textAllCaps="false"
+            android:textColor="@color/button_main"
+            android:textFontWeight="700"
+            app:layout_constraintEnd_toStartOf="@id/buttonDistance500"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <Button
+            android:id="@+id/buttonDistance500"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_button"
+            android:text="500m"
+            android:textAllCaps="false"
+            android:textColor="@color/button_main"
+            android:textFontWeight="700"
+            app:layout_constraintEnd_toStartOf="@id/buttonDistance1000"
+            app:layout_constraintStart_toEndOf="@id/buttonDistance300"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <Button
+            android:id="@+id/buttonDistance1000"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_button_color"
+            android:text="1km"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textFontWeight="700"
+            app:layout_constraintEnd_toStartOf="@id/buttonDistance3000"
+            app:layout_constraintStart_toEndOf="@id/buttonDistance500"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <Button
+            android:id="@+id/buttonDistance3000"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_button"
+            android:text="3km"
+            android:textAllCaps="false"
+            android:textColor="@color/button_main"
+            android:textFontWeight="700"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"
+            app:layout_constraintStart_toEndOf="@id/buttonDistance1000"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_left"
             android:layout_width="wrap_content"
@@ -58,10 +110,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginVertical="160dp"
-            app:layout_constraintTop_toBottomOf="@id/title"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-        />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/buttonDistance300" />
 
         <GridView
             android:id="@+id/grid_card"
@@ -74,7 +125,7 @@
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@id/title" />
+            app:layout_constraintTop_toBottomOf="@id/buttonDistance300" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

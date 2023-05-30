@@ -45,10 +45,9 @@ class CardAdapter(private val context: Context, private val items: List<Place>) 
         val name = view.findViewById<TextView>(R.id.name)
         val address = view.findViewById<TextView>(R.id.address)
 
-        val pxCorner = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP, 16f, context.resources.displayMetrics
-        )
-        Picasso.get().load(items[position].image).into(image)
+        val imageUrl = items[position].image
+        if (imageUrl?.isNotBlank() == true)
+            Picasso.get().load(items[position].image).into(image)
         name.text = items[position].name
         address.text = items[position].address
 
@@ -83,32 +82,5 @@ class CardAdapter(private val context: Context, private val items: List<Place>) 
         view.layoutParams = viewParams
 
         return view
-    }
-}
-
-class RoundedCorner(private val radius: Float) : Transformation {
-    override fun transform(source: Bitmap): Bitmap {
-        val paint = Paint()
-        paint.isAntiAlias = true
-        paint.shader = BitmapShader(source, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
-
-        val output = Bitmap.createBitmap(source.width, source.height, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(output)
-        canvas.drawRoundRect(
-            RectF(0f, 0f, source.width.toFloat(), source.height.toFloat()),
-            radius,
-            radius,
-            paint
-        )
-
-        if (source != output) {
-            source.recycle()
-        }
-
-        return output
-    }
-
-    override fun key(): String {
-        return "rounded"
     }
 }
