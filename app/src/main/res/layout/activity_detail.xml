@@ -183,8 +183,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:divider="@android:color/transparent"
-            android:dividerHeight="20dp"
-            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
             app:layout_constraintTop_toBottomOf="@id/textReview" />

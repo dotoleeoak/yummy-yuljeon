@@ -87,12 +87,19 @@ class DetailActivity : AppCompatActivity() {
                     reviewList.adapter = ReviewAdapter(this@DetailActivity, reviews!!)
 
                     // Update height of listview depending on the number of cards
-                    val height = TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP,
-                        160f * data.reviews.size + 20f, // TODO: adjust height to child
-                        resources.displayMetrics
-                    ).toInt()
-                    reviewList.layoutParams.height = height
+                    var totalHeight = 0
+                    for (i in 0 until reviewList.adapter.count) {
+                        val view = reviewList.adapter.getView(i, null, reviewList)
+                        view.measure(0, 0)
+                        totalHeight += view.measuredHeight
+                        // add vertical padding
+                        totalHeight += TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_DIP,
+                            20f,
+                            resources.displayMetrics
+                        ).toInt()
+                    }
+                    reviewList.layoutParams.height = totalHeight
                     reviewList.requestLayout()
                 }
             }
