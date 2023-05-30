@@ -34,6 +34,7 @@ class CardAdapter(private val context: Context, private val items: List<Place>) 
         val image = view.findViewById<ImageView>(R.id.card_image)
         val name = view.findViewById<TextView>(R.id.name)
         val address = view.findViewById<TextView>(R.id.address)
+        val distance = view.findViewById<TextView>(R.id.distance)
 
         Log.i("CardAdapter", "getView: ${items[position].image}")
 
@@ -42,6 +43,7 @@ class CardAdapter(private val context: Context, private val items: List<Place>) 
             Picasso.get().load(items[position].image).into(image)
         name.text = items[position].name
         address.text = items[position].address
+        distance.text = items[position].distance + 'm'
 
         // if item is clicked, show detail page
         view.setOnClickListener {

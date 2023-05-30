@@ -67,6 +67,15 @@ class ListFragment : Fragment() {
 
         fun getPlaceList() {
             binding.progressBar.visibility = View.VISIBLE
+            if (page > 1) {
+                val height = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    60f,
+                    resources.displayMetrics
+                ).toInt()
+                binding.progressBar.layoutParams.height = height
+                binding.progressBar.requestLayout()
+            }
             if (page == 1) binding.gridCard.visibility = View.GONE
             binding.moreButton.visibility = View.GONE
 
