@@ -1,6 +1,8 @@
 package edu.skku.cs.yummyyuljeon
 
+import android.content.Intent
 import android.content.res.ColorStateList
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -49,8 +51,15 @@ class DetailActivity : AppCompatActivity() {
 
         nameView.text = name
         addressView.text = address
-        if (phone?.isNotBlank() == true) phoneView.text = phone
-        Picasso.get().load(image).into(imageView)
+        if (phone?.isNotBlank() == true) {
+            phoneView.text = phone
+            phoneView.setOnClickListener {
+                val target = "tel:" + phone.replace("-", "")
+                val intent = Intent(Intent.ACTION_DIAL, Uri.parse(target))
+                startActivity(intent)
+            }
+        }
+        if (image?.isNotBlank() == true) Picasso.get().load(image).into(imageView)
 
         // check if item is in favorite
         val inputStream = openFileInput("favorite.json")
