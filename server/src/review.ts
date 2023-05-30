@@ -28,7 +28,7 @@ export const getReview = async (placeId: string, driver: ThenableWebDriver) => {
       // const dateText = await date.getText()
       // const imageText = await image.getAttribute('href')
       let content = await review.getText()
-      content = content.replace('더보기', '')
+      content = content.replace('\n더보기', '')
       return {
         content
       }
@@ -38,6 +38,6 @@ export const getReview = async (placeId: string, driver: ThenableWebDriver) => {
   const openHourText = await openHour.getText()
   return {
     reviews: reviewList.filter((review) => review.content !== ''),
-    openHour: openHourText
+    openHour: openHourText.replace('\n더보기', '')
   }
 }

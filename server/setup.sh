@@ -2,7 +2,7 @@
 
 set -x
 
-git reset --hard
+git stash
 git pull
 
 fuser -k 3000/tcp
