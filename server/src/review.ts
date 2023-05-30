@@ -9,24 +9,17 @@ export const getReview = async (placeId: string, driver: ThenableWebDriver) => {
   const reviewWrapper = await driver.findElement(
     By.className('evaluation_review')
   )
-  // const moreButton = await reviewWrapper.findElement(By.className('link_more'))
-  // if (moreButton) {
-  //   await moreButton.click()
-  //   await driver.manage().setTimeouts({ implicit: 3000 })
-  // }
+  const moreButton = await reviewWrapper.findElement(By.className('link_more'))
+  for (let i = 0; i < 10; i++) {
+    await moreButton.click()
+    await new Promise((resolve) => setTimeout(resolve, 100))
+    if ((await moreButton.getText()).includes('접기')) {
+      break
+    }
+  }
   const review = await reviewWrapper.findElements(By.className('txt_comment'))
   const reviewList = await Promise.all(
     review.map(async (review) => {
-      // const name = await review.findElement({ css: '.txt_name' })
-      // const rating = await review.findElement({ css: '.grade_star' })
-      // const content = await review.findElement({ css: '.txt_comment' })
-      // const date = await review.findElement({ css: '.time_write' })
-      // const image = await review.findElement({ css: '.link_photo' })
-      // const nameText = await name.getText()
-      // const ratingText = await rating.getAttribute('class')
-      // const contentText = await content.getText()
-      // const dateText = await date.getText()
-      // const imageText = await image.getAttribute('href')
       let content = await review.getText()
       content = content.replace('\n더보기', '')
       return {
