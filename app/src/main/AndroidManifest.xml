@@ -34,11 +34,6 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="115e58f49bcc504cbeb8004faad93330" />
-
-        <service
-            android:name="NavigationService"
-            android:foregroundServiceType="location" />
-        
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

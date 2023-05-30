@@ -29,3 +29,5 @@ data class ApiDetail(
         val content: String? = null
     )
 }
+
+data class StorePlace(val favorites: ArrayList<Place>)

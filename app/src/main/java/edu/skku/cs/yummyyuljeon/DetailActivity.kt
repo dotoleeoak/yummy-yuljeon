@@ -1,5 +1,6 @@
 package edu.skku.cs.yummyyuljeon
 
+import android.content.res.ColorStateList
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,12 +10,15 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
+import android.widget.Toast
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.*
+import java.io.FileInputStream
+import java.io.FileNotFoundException
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
@@ -33,6 +37,7 @@ class DetailActivity : AppCompatActivity() {
         val name = intent.getStringExtra("name")
         val address = intent.getStringExtra("address")
         val phone = intent.getStringExtra("phone")
+        val distance = intent.getStringExtra("distance")
         val image = intent.getStringExtra("image")
         val x = intent.getStringExtra("x")
         val y = intent.getStringExtra("y")
@@ -46,6 +51,58 @@ class DetailActivity : AppCompatActivity() {
         addressView.text = address
         if (phone?.isNotBlank() == true) phoneView.text = phone
         Picasso.get().load(image).into(imageView)
+
+        // check if item is in favorite
+        val inputStream = openFileInput("favorite.json")
+        val json = inputStream.bufferedReader().use { it.readText() }
+        Log.i("favorite", json)
+        inputStream.close()
+        val store = Gson().fromJson(json, StorePlace::class.java)
+        // if item is in favorite, change button image
+        if (store.favorites.any { it.id == id }) {
+            val favoriteButton = findViewById<Button>(R.id.buttonFavorite)
+            favoriteButton.setBackgroundResource(R.drawable.rounded_button_color)
+            favoriteButton.setTextColor(resources.getColor(R.color.white, null))
+            val colorStateList = ColorStateList.valueOf(
+                resources.getColor(R.color.white, null)
+            )
+            favoriteButton.compoundDrawableTintList = colorStateList
+        }
+
+        // add item to favorite
+        val favoriteButton = findViewById<Button>(R.id.buttonFavorite)
+        favoriteButton.setOnClickListener {
+            val inputStream = openFileInput("favorite.json")
+            val json = inputStream.bufferedReader().use { it.readText() }
+            inputStream.close()
+            val data = Gson().fromJson(json, StorePlace::class.java)
+            // if item is in favorite, remove item
+            if (data.favorites.any { it.id == id }) {
+                data.favorites.removeIf { it.id == id }
+                favoriteButton.setBackgroundResource(R.drawable.rounded_button)
+                favoriteButton.setTextColor(resources.getColor(R.color.button_main, null))
+                val colorStateList = ColorStateList.valueOf(
+                    resources.getColor(R.color.button_main, null)
+                )
+                favoriteButton.compoundDrawableTintList = colorStateList
+                Toast.makeText(this, "Removed from Favorites 🗑️", Toast.LENGTH_SHORT).show()
+            } else {
+                data.favorites.add(Place(id, name, address, phone, distance, image, x, y))
+                favoriteButton.setBackgroundResource(R.drawable.rounded_button_color)
+                favoriteButton.setTextColor(resources.getColor(R.color.white, null))
+                val colorStateList = ColorStateList.valueOf(
+                    resources.getColor(R.color.white, null)
+                )
+                favoriteButton.compoundDrawableTintList = colorStateList
+                Toast.makeText(
+                    this, "Added to Favorites! ❤️", Toast.LENGTH_SHORT
+                ).show()
+            }
+            val outputStream = openFileOutput("favorite.json", MODE_PRIVATE)
+            val newData = Gson().toJson(data)
+            outputStream.write(newData.toByteArray())
+            outputStream.close()
+        }
 
         // open map activity on click map button
         val mapButton = findViewById<Button>(R.id.buttonMap)
@@ -69,9 +126,19 @@ class DetailActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                val body = response.body!!.string()
-                val gson = Gson()
-                val data = gson.fromJson(body, ApiDetail::class.java)
+                val json = response.body!!.string()
+                Log.i(localClassName, json)
+                if (json.contains("502 Bad Gateway")) {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        Toast.makeText(
+                            this@DetailActivity,
+                            "Server is down, please try again later",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    return
+                }
+                val data = Gson().fromJson(json, ApiDetail::class.java)
 
                 CoroutineScope(Dispatchers.Main).launch {
                     val openingHourView = findViewById<TextView>(R.id.openingHours)

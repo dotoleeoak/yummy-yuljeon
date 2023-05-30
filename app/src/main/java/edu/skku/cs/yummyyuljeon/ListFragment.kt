@@ -1,11 +1,8 @@
-package edu.skku.cs.yummyyuljeon.ui.home
+package edu.skku.cs.yummyyuljeon
 
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
-import android.location.LocationManager
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -13,22 +10,24 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.gson.Gson
-import edu.skku.cs.yummyyuljeon.*
-import edu.skku.cs.yummyyuljeon.databinding.FragmentHomeBinding
+import edu.skku.cs.yummyyuljeon.databinding.FragmentListBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.*
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
 import java.io.IOException
 
-class HomeFragment : Fragment() {
-    private var _binding: FragmentHomeBinding? = null
+class ListFragment : Fragment() {
+    private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
     private var adapter: CardAdapter? = null
     private var places = ArrayList<Place>()
@@ -44,6 +43,7 @@ class HomeFragment : Fragment() {
         const val EXT_ADDRESS = "address"
         const val EXT_PHONE = "phone"
         const val EXT_IMAGE = "image"
+        const val EXT_DISTANCE = "distance"
         const val EXT_X = "x"
         const val EXT_Y = "y"
     }
@@ -53,7 +53,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentListBinding.inflate(inflater, container, false)
         val root = binding.root
 
         // gps location service
@@ -100,7 +100,6 @@ class HomeFragment : Fragment() {
 
                     override fun onResponse(call: Call, response: Response) {
                         val body = response.body?.string()
-                        Log.i("response", body.toString())
                         val gson = Gson()
                         val data = gson.fromJson(body, ApiPlace::class.java)
                         val last = data.meta!!.is_end!!

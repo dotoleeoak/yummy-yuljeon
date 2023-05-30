@@ -1,15 +1,14 @@
 package edu.skku.cs.yummyyuljeon
 
 import android.os.Bundle
-import android.util.Base64
 import android.util.Log
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.gson.Gson
 import edu.skku.cs.yummyyuljeon.databinding.ActivityMainBinding
+import java.io.FileNotFoundException
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,5 +24,20 @@ class MainActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         navView.setupWithNavController(navController)
+
+        // if favorite.json file does not exist, create file
+        try {
+            val stream = openFileInput("favorite.json")
+            Log.i("favorite", "favorite.json exists")
+            val data = stream.bufferedReader().use { it.readText() }
+            Log.i("favorite", data)
+            stream.close()
+        } catch (e: FileNotFoundException) {
+            val data = Gson().toJson(StorePlace(arrayListOf()))
+            val outputStream = openFileOutput("favorite.json", MODE_PRIVATE)
+            Log.i("favorite", "creating: " + data)
+            outputStream.write(data.toByteArray())
+            outputStream.close()
+        }
     }
 }

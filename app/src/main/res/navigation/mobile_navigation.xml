@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_list"
-        android:name="edu.skku.cs.yummyyuljeon.ui.home.HomeFragment"
+        android:name="edu.skku.cs.yummyyuljeon.ListFragment"
         android:label="@string/title_list"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_list" />
 
     <fragment
         android:id="@+id/navigation_map"
-        android:name="edu.skku.cs.yummyyuljeon.ui.dashboard.DashboardFragment"
+        android:name="edu.skku.cs.yummyyuljeon.MapFragment"
         android:label="@string/title_map"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_map" />
 
     <fragment
         android:id="@+id/navigation_my"
-        android:name="edu.skku.cs.yummyyuljeon.ui.notifications.NotificationsFragment"
+        android:name="edu.skku.cs.yummyyuljeon.MyFragment"
         android:label="@string/title_my"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_my" />
 </navigation>

@@ -1,15 +1,8 @@
-package edu.skku.cs.yummyyuljeon.ui.home
+package edu.skku.cs.yummyyuljeon
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.BitmapShader
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.RectF
-import android.graphics.Shader
-import android.graphics.drawable.BitmapDrawable
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -17,10 +10,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import com.squareup.picasso.Picasso
-import com.squareup.picasso.Transformation
-import edu.skku.cs.yummyyuljeon.*
 
 class CardAdapter(private val context: Context, private val items: List<Place>) :
     BaseAdapter() {
@@ -45,6 +35,8 @@ class CardAdapter(private val context: Context, private val items: List<Place>) 
         val name = view.findViewById<TextView>(R.id.name)
         val address = view.findViewById<TextView>(R.id.address)
 
+        Log.i("CardAdapter", "getView: ${items[position].image}")
+
         val imageUrl = items[position].image
         if (imageUrl?.isNotBlank() == true)
             Picasso.get().load(items[position].image).into(image)
@@ -57,13 +49,14 @@ class CardAdapter(private val context: Context, private val items: List<Place>) 
                 context,
                 DetailActivity::class.java
             ).apply {
-                putExtra(HomeFragment.EXT_ID, items[position].id)
-                putExtra(HomeFragment.EXT_NAME, items[position].name)
-                putExtra(HomeFragment.EXT_ADDRESS, items[position].address)
-                putExtra(HomeFragment.EXT_PHONE, items[position].phone)
-                putExtra(HomeFragment.EXT_IMAGE, items[position].image)
-                putExtra(HomeFragment.EXT_X, items[position].x)
-                putExtra(HomeFragment.EXT_Y, items[position].y)
+                putExtra(ListFragment.EXT_ID, items[position].id)
+                putExtra(ListFragment.EXT_NAME, items[position].name)
+                putExtra(ListFragment.EXT_ADDRESS, items[position].address)
+                putExtra(ListFragment.EXT_PHONE, items[position].phone)
+                putExtra(ListFragment.EXT_IMAGE, items[position].image)
+                putExtra(ListFragment.EXT_DISTANCE, items[position].distance)
+                putExtra(ListFragment.EXT_X, items[position].x)
+                putExtra(ListFragment.EXT_Y, items[position].y)
             }
             context.startActivity(intent)
         }
