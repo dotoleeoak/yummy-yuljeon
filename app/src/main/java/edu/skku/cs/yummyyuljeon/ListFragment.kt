@@ -67,7 +67,7 @@ class ListFragment : Fragment() {
 
         fun getPlaceList() {
             binding.progressBar.visibility = View.VISIBLE
-            binding.gridCard.visibility = View.GONE
+            if (page == 1) binding.gridCard.visibility = View.GONE
             binding.moreButton.visibility = View.GONE
 
             if (ActivityCompat.checkSelfPermission(
@@ -118,7 +118,7 @@ class ListFragment : Fragment() {
                             val numRows = (places.size + 1) / 2
                             val cardHeight = TypedValue.applyDimension(
                                 TypedValue.COMPLEX_UNIT_DIP,
-                                230f * numRows + 40f,
+                                240f * numRows,
                                 resources.displayMetrics
                             ).toInt()
                             gridView.layoutParams.height = cardHeight

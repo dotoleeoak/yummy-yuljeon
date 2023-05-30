@@ -107,17 +107,8 @@
             android:orientation="vertical"
             app:layout_constraintGuide_end="30dp" />
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="160dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/buttonDistance300" />
-
         <GridView
-            android:id="@+id/grid_card"
+            android:id="@+id/gridCard"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginVertical="40dp"
@@ -143,7 +134,16 @@
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@id/grid_card" />
+            app:layout_constraintTop_toBottomOf="@id/gridCard" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="160dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/gridCard" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
