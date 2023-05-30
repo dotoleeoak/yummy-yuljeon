@@ -2,6 +2,10 @@ import { By, until, type ThenableWebDriver } from 'selenium-webdriver'
 
 export const getReview = async (placeId: string, driver: ThenableWebDriver) => {
   await driver.get('https://place.map.kakao.com/' + placeId)
+  await driver.wait(
+    until.elementLocated(By.className('list_evaluation')),
+    10000
+  )
   await new Promise((resolve) => setTimeout(resolve, 200))
   const reviewWrapper = await driver.findElement(
     By.className('evaluation_review')
