@@ -153,7 +153,7 @@ class DetailActivity : AppCompatActivity() {
                     val openingHourView = findViewById<TextView>(R.id.openingHours)
                     val reviewList = findViewById<ListView>(R.id.reviewList)
 
-                    openingHourView.text = data.openHour
+                    openingHourView.text = if (data.openHour?.isNotBlank() == true) data.openHour else "Not Provded"
 
                     val progressBar = findViewById<View>(R.id.progressBar)
                     progressBar.visibility = View.GONE

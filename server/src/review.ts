@@ -27,10 +27,18 @@ export const getReview = async (placeId: string, driver: ThenableWebDriver) => {
       }
     })
   )
-  const openHour = await driver.findElement(By.className('openhour_wrap'))
-  const openHourText = await openHour.getText()
-  return {
-    reviews: reviewList.filter((review) => review.content !== ''),
-    openHour: openHourText.replace('\n더보기', '')
+  const reviews = reviewList.filter((review) => review.content !== '')
+  try {
+    const openHour = await driver.findElement(By.className('openhour_wrap'))
+    const openHourText = await openHour.getText()
+    return {
+      reviews,
+      openHour: openHourText.replace('\n더보기', '')
+    }
+  } catch (e) {
+    return {
+      reviews,
+      openHour: ''
+    }
   }
 }
