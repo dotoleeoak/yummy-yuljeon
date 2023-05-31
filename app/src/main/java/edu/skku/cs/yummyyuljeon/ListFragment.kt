@@ -167,14 +167,14 @@ class ListFragment : Fragment() {
         }
 
         fun selectDistance(view: Button) {
-            view.background =
-                ResourcesCompat.getDrawable(resources, R.drawable.rounded_button_color, null)
-            view.setTextColor(resources.getColor(R.color.white, null))
-
             val oldView = requireView().findViewById<Button>(clicked)
             oldView.background =
                 ResourcesCompat.getDrawable(resources, R.drawable.rounded_button, null)
             oldView.setTextColor(resources.getColor(R.color.button_main, null))
+
+            view.background =
+                ResourcesCompat.getDrawable(resources, R.drawable.rounded_button_color, null)
+            view.setTextColor(resources.getColor(R.color.white, null))
 
             clicked = view.id
 
