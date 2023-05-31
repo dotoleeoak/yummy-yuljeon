@@ -111,9 +111,19 @@ class ListFragment : Fragment() {
                     }
 
                     override fun onResponse(call: Call, response: Response) {
-                        val body = response.body?.string()
+                        val json = response.body!!.string()
+                        if (json.contains("502 Bad Gateway")) {
+                            CoroutineScope(Dispatchers.Main).launch {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Server is down, please try again later",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            return
+                        }
                         val gson = Gson()
-                        val data = gson.fromJson(body, ApiPlace::class.java)
+                        val data = gson.fromJson(json, ApiPlace::class.java)
                         val last = data.meta!!.is_end!!
                         if (page > 1) {
                             places.addAll(data.places!!)
