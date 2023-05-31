@@ -89,9 +89,7 @@ class MapFragment : Fragment() {
 
         val model = ViewModelProvider(requireActivity())[PlaceViewModel::class.java]
         model.places.observe(viewLifecycleOwner) { places ->
-            Log.i("MapFragment", "whole places: $places")
             for (place in places) {
-                Log.i("MapFragment", "place: $place")
                 val marker = MapPOIItem()
                 marker.itemName = place.name
                 marker.mapPoint =

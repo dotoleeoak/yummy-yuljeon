@@ -38,7 +38,6 @@ class ListFragment : Fragment() {
     private var distance: Int = 1000
     private var page: Int = 1
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-//    private val model = ViewModelProvider(this).get(PlaceViewModel::class.java)
 
     companion object {
         const val EXT_ID = "id"
@@ -78,9 +77,20 @@ class ListFragment : Fragment() {
                 ).toInt()
                 binding.progressBar.layoutParams.height = height
                 binding.progressBar.requestLayout()
+            } else {
+                val height = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    300f,
+                    resources.displayMetrics
+                ).toInt()
+                binding.progressBar.layoutParams.height = height
+                binding.progressBar.requestLayout()
+
+                binding.gridCard.visibility = View.GONE
             }
-            if (page == 1) binding.gridCard.visibility = View.GONE
             binding.moreButton.visibility = View.GONE
+
+            val model = ViewModelProvider(requireActivity())[PlaceViewModel::class.java]
 
             if (ActivityCompat.checkSelfPermission(
                     requireContext(),
@@ -131,8 +141,6 @@ class ListFragment : Fragment() {
                             places = data.places!!
                         }
 
-                        val model =
-                            ViewModelProvider(requireActivity())[PlaceViewModel::class.java]
                         model.places.postValue(places)
 
                         CoroutineScope(Dispatchers.Main).launch {
@@ -174,21 +182,25 @@ class ListFragment : Fragment() {
         }
 
         binding.buttonDistance300.setOnClickListener {
+            page = 1
             distance = 300
             selectDistance(it as Button)
         }
 
         binding.buttonDistance500.setOnClickListener {
+            page = 1
             distance = 500
             selectDistance(it as Button)
         }
 
         binding.buttonDistance1000.setOnClickListener {
+            page = 1
             distance = 1000
             selectDistance(it as Button)
         }
 
         binding.buttonDistance3000.setOnClickListener {
+            page = 1
             distance = 3000
             selectDistance(it as Button)
         }
