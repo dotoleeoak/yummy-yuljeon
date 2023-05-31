@@ -20,10 +20,7 @@ if (!process.env.NAVER_CLIENT_ID || !process.env.NAVER_CLIENT_SECRET) {
 // headless chrome
 const driverOption = new chrome.Options()
 driverOption.addArguments('headless')
-const driver = new Builder()
-  .forBrowser(Browser.CHROME)
-  .setChromeOptions(driverOption)
-  .build()
+const driver = new Builder().forBrowser(Browser.CHROME).setChromeOptions(driverOption).build()
 
 const app = express()
 
@@ -40,22 +37,19 @@ app.get('/place', async (req, res) => {
 
   const category_group_code = 'FD6' // 음식점
 
-  const { data } = await axios.get(
-    'https://dapi.kakao.com/v2/local/search/category.json',
-    {
-      headers: {
-        Authorization: `KakaoAK ${process.env.KAKAO_REST_API_KEY}`
-      },
-      params: {
-        category_group_code,
-        radius,
-        x,
-        y,
-        page,
-        size
-      }
+  const { data } = await axios.get('https://dapi.kakao.com/v2/local/search/category.json', {
+    headers: {
+      Authorization: `KakaoAK ${process.env.KAKAO_REST_API_KEY}`
+    },
+    params: {
+      category_group_code,
+      radius,
+      x,
+      y,
+      page,
+      size
     }
-  )
+  })
 
   const schema = z
     .object({
