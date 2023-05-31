@@ -9,14 +9,18 @@ export const getReview = async (placeId: string, driver: ThenableWebDriver) => {
   const reviewWrapper = await driver.findElement(
     By.className('evaluation_review')
   )
-  const moreButton = await reviewWrapper.findElement(By.className('link_more'))
-  for (let i = 0; i < 10; i++) {
-    await moreButton.click()
-    await new Promise((resolve) => setTimeout(resolve, 100))
-    if ((await moreButton.getText()).includes('접기')) {
-      break
+  try {
+    const moreButton = await reviewWrapper.findElement(
+      By.className('link_more')
+    )
+    for (let i = 0; i < 10; i++) {
+      await moreButton.click()
+      await new Promise((resolve) => setTimeout(resolve, 100))
+      if ((await moreButton.getText()).includes('접기')) {
+        break
+      }
     }
-  }
+  } catch (e) {}
   const review = await reviewWrapper.findElements(By.className('txt_comment'))
   const reviewList = await Promise.all(
     review.map(async (review) => {
