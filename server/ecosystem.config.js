@@ -5,7 +5,7 @@ module.exports = {
       script: 'node dist/main.js'
     }
   ],
-  max_memory_restart: '800M'
+  max_memory_restart: '500M'
   // deploy: {
   //   production: {
   //     user: 'ubuntu',
